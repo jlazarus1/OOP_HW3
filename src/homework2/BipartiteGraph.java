@@ -4,21 +4,14 @@ import java.util.ArrayList;
 
 public class BipartiteGraph<T> {
 
-    private String graphName;
-    private ArrayList<T> whiteNodes;
-    private ArrayList<T> blackNodes;
-    private ArrayList<T> edges;
+    private ArrayList<Vertex<T>> blackVertices;
+    private ArrayList<Vertex<T>> whiteVertices;
+    private ArrayList<Edege<T>> edges;
 
-    public void addBlackNode(String graphName, String nodeName) {
-        // TODO: Implement this method
-
-
-    }
-
-    public void addWhiteNode(String graphName, String nodeName) {
-        //TODO: Implement this method
-
-
+    public BipartiteGraph() {
+        blackVertices = new ArrayList<Vertex<T>>();
+        whiteVertices = new ArrayList<Vertex<T>>();
+        edges = new ArrayList<Edege<T>>();
     }
 
 
