@@ -3,6 +3,7 @@ package homework2;
 
 
 
+
 /*
 This class Implements a generic Bipartite Graph. The nodes and Vertexes may be of any class.
 
@@ -11,8 +12,16 @@ This class Implements a generic Bipartite Graph. The nodes and Vertexes may be o
 import java.util.ArrayList;
 
 
-public class BipartiteGraph {
+public class BipartiteGraph<T> {
+    private ArrayList<Vertex<T>> blackVertices;
+    private ArrayList<Vertex<T>> whiteVertices;
+    private ArrayList<Edege<T>> edges;
 
+    public BipartiteGraph() {
+        blackVertices = new ArrayList<Vertex<T>>();
+        whiteVertices = new ArrayList<Vertex<T>>();
+        edges = new ArrayList<Edege<T>>();
+    }
 
     /*
      * @requires type must be a type that is immutable and has an overridden equals method

@@ -16,8 +16,8 @@ public class BipartiteGraphTestDriver {
      */
     public BipartiteGraphTestDriver () {
     	// TODO: Implement this constructor
-       
-       
+        graphs = new HashMap<String, BipartiteGraph<String>>();
+
     }
 
     
@@ -29,7 +29,7 @@ public class BipartiteGraphTestDriver {
      */
     public void createGraph(String graphName) {
         // TODO: Implement this method
-        
+
     	
     }
 
@@ -99,7 +99,7 @@ public class BipartiteGraphTestDriver {
     public String listBlackNodes(String graphName) {
     	//TODO: Implement this method
     	
-    	
+    	return "asd";
     }
 
     
@@ -111,7 +111,7 @@ public class BipartiteGraphTestDriver {
     public String listWhiteNodes(String graphName) {
     	//TODO: Implement this method
     	
-    	
+    	return "asd";
     }
 
     
@@ -123,7 +123,7 @@ public class BipartiteGraphTestDriver {
     public String listChildren(String graphName, String parentName) {
     	//TODO: Implement this method
     	
-    	
+    	return "asd";
     }
 
     
@@ -135,7 +135,7 @@ public class BipartiteGraphTestDriver {
     public String listParents(String graphName, String childName) {
     	//TODO: Implement this method
     	
-    	
+    	return "asd";
     }
 
     
@@ -149,7 +149,7 @@ public class BipartiteGraphTestDriver {
     								   String edgeLabel) {
     	//TODO: Implement this method
     	
-    	
+    	return "asd";
     }
 
     
@@ -163,6 +163,6 @@ public class BipartiteGraphTestDriver {
     									String edgeLabel) {
     	//TODO: Implement this method
     	
-    	
+    	return "asd";
     }
 }
