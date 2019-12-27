@@ -110,7 +110,14 @@ public class BipartiteGraph<T> {
      *@effects returns an ArrayList of type T with all the elements of white nodes from the graph. holds the reference to the objects themselves
      *@returns an array list with references to the white nodes in graph.
      */
-    public <T> ArrayList<T> listWhiteNodes(){return}
+    public ArrayList<T> listWhiteNodes(){
+        ArrayList<T> whiteNodes = new ArrayList<T>();
+        for(Vertex<T> i : whiteVertices){
+            whiteNodes.add(i.getLable());
+        }
+        return whiteNodes;
+    }
+
 
 
 
@@ -120,7 +127,17 @@ public class BipartiteGraph<T> {
     * @effects returns an arraylist of the children of the parent label. if parentLabel is null or non existent
     *          throws an exception.
      */
-    public ArrayList<T> listChildren(T parentLabel) throws NullPointerException {}
+    public ArrayList<T> listChildren(T parentLabel) throws NullPointerException {
+        if(parentLabel == null) throw new NullPointerException();
+        Vertex<T> parent = findLabel(parentLabel);
+        if(parent == null) return null;
+        ArrayList<Vertex<T>> children = parent.getChildren();
+        ArrayList<T> childrenLables = new ArrayList<T>();
+        for(Vertex<T> i : children){
+            childrenLables.add(i.getLable());
+        }
+        return childrenLables;
+    }
 
     /*
      *@requires T must be immutable and override equals method
@@ -129,6 +146,15 @@ public class BipartiteGraph<T> {
      *          throws an exception.
      */
     public ArrayList<T> listParent(T childLabel) throws NullPointerException {
+        if(childLabel == null) throw new NullPointerException();
+        Vertex<T> child = findLabel(childLabel);
+        if(child == null) return null;
+        ArrayList<Vertex<T>> parents = child.getParents();
+        ArrayList<T> parentsLables = new ArrayList<T>();
+        for(Vertex<T> i : parents){
+            parentsLables.add(i.getLable());
+        }
+        return parentsLables;
     }
 
     /*
