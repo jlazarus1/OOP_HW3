@@ -221,4 +221,35 @@ public class BipartiteGraph<T> {
         return null;
     }
 
+    /*
+     * @requires - T must be immutable and override equals method
+     * @modifies - edges.
+     * @effects - removes the edge from the graph
+     */
+    public void removeEdgeByChild(T childLable, T edgeLabel) throws NullPointerException{
+        if(childLable == null || edgeLabel == null) throw new NullPointerException();
+        for(Edege<T> i : edges){
+            if(i.getLable().equals(edgeLabel) && i.getChild().getLable().equals(childLable)){
+                i.getChild().removeParent(i.getParent());
+                i.getParent().removeChild(i.getChild());
+                edges.remove(i);
+            }
+        }
+    }
+
+    /*
+     * @requires - T must be immutable and override equals method
+     * @modifies - edges.
+     * @effects - removes the edge from the graph
+     */
+    public void removeEdgeByParent(T parentLabel, T edgeLabel) throws NullPointerException{
+        if(parentLabel == null || edgeLabel == null) throw new NullPointerException();
+        for(Edege<T> i : edges) {
+            if (i.getLable().equals(edgeLabel) && i.getParent().getLable().equals(parentLabel)) {
+                i.getChild().removeParent(i.getParent());
+                i.getParent().removeChild(i.getChild());
+                edges.remove(i);
+            }
+        }
+    }
 }
