@@ -2,7 +2,7 @@ package homework2;
 
 import java.util.ArrayList;
 
-public class Edege<T> {
+public class Edge<T> {
     private T lable;
     private Vertex<T> parent;
     private Vertex<T> child;
@@ -12,7 +12,7 @@ public class Edege<T> {
      * @modifies this.
      * @effects creates a new edge with parent and child
      */
-    public Edege(T lable , Vertex<T> parent , Vertex<T> child){
+    public Edge(T lable , Vertex<T> parent , Vertex<T> child){
         this.lable = lable;
         this.parent = parent;
         this.child = child;

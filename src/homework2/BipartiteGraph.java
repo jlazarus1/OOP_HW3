@@ -18,7 +18,7 @@ public class BipartiteGraph<T> {
     // Representation Invariant - BipartiteGraph must be != null must not have edges that are not connected to either father or child.
     private ArrayList<Vertex<T>> blackVertices;
     private ArrayList<Vertex<T>> whiteVertices;
-    private ArrayList<Edege<T>> edges;
+    private ArrayList<Edge<T>> edges;
 
 
     /*
@@ -30,7 +30,7 @@ public class BipartiteGraph<T> {
     public BipartiteGraph() {
         blackVertices = new ArrayList<Vertex<T>>();
         whiteVertices = new ArrayList<Vertex<T>>();
-        edges = new ArrayList<Edege<T>>();
+        edges = new ArrayList<Edge<T>>();
     }
 
 
@@ -117,7 +117,7 @@ public class BipartiteGraph<T> {
         findLabel(parentLabel).addChild(findLabel(childLabel));
         findLabel(childLabel).addParent(findLabel(parentLabel));
 
-        Edege edge = new Edege(edgeLabel,findLabel(parentLabel),findLabel(childLabel));
+        Edge edge = new Edge(edgeLabel,findLabel(parentLabel),findLabel(childLabel));
         edges.add(edge);
 
         return true;
@@ -204,7 +204,7 @@ public class BipartiteGraph<T> {
      */
     public T getChildByEdgeLabel(T parentLabel, T edgeLabel) throws NullPointerException {
         if(parentLabel == null || edgeLabel == null) throw new NullPointerException();
-        for(Edege<T> i : edges){
+        for(Edge<T> i : edges){
             if(i.getLable().equals(edgeLabel) && i.getParent().getLable().equals(parentLabel)){
                 return i.getChild().getLable();
             }
@@ -220,7 +220,7 @@ public class BipartiteGraph<T> {
      */
     public T getParentdByEdgeLabel(T childLable, T edgeLabel) throws NullPointerException {
         if(childLable == null || edgeLabel == null) throw new NullPointerException();
-        for(Edege<T> i : edges){
+        for(Edge<T> i : edges){
             if(i.getLable().equals(edgeLabel) && i.getChild().getLable().equals(childLable)){
                 return i.getParent().getLable();
             }
@@ -235,7 +235,7 @@ public class BipartiteGraph<T> {
      */
     public void removeEdgeByChild(T childLable, T edgeLabel) throws NullPointerException{
         if(childLable == null || edgeLabel == null) throw new NullPointerException();
-        for(Edege<T> i : edges){
+        for(Edge<T> i : edges){
             if(i.getLable().equals(edgeLabel) && i.getChild().getLable().equals(childLable)){
                 i.getChild().removeParent(i.getParent());
                 i.getParent().removeChild(i.getChild());
@@ -251,7 +251,7 @@ public class BipartiteGraph<T> {
      */
     public void removeEdgeByParent(T parentLabel, T edgeLabel) throws NullPointerException{
         if(parentLabel == null || edgeLabel == null) throw new NullPointerException();
-        for(Edege<T> i : edges) {
+        for(Edge<T> i : edges) {
             if (i.getLable().equals(edgeLabel) && i.getParent().getLable().equals(parentLabel)) {
                 i.getChild().removeParent(i.getParent());
                 i.getParent().removeChild(i.getChild());
@@ -261,7 +261,7 @@ public class BipartiteGraph<T> {
     }
 
     private void checkRep(){
-        for (Edege<T>  i : edges)
+        for (Edge<T> i : edges)
             assert (findLabel(i.getParent().getLable())==null);
             assert (findLabel(i.getChild().getLabel())==null);
 
@@ -269,5 +269,5 @@ public class BipartiteGraph<T> {
 
 
     }
-    
+
 }
