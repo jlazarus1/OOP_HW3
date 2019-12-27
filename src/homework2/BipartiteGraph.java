@@ -7,12 +7,15 @@ package homework2;
 /*
 This class Implements a generic Bipartite Graph. The nodes and Vertexes may be of any class.
 
+
+
  */
 
 import java.util.ArrayList;
 
 
 public class BipartiteGraph<T> {
+    // Representation Invariant - BipartiteGraph must be != null must not have edges that are not connected to either father or child.
     private ArrayList<Vertex<T>> blackVertices;
     private ArrayList<Vertex<T>> whiteVertices;
     private ArrayList<Edege<T>> edges;
@@ -113,6 +116,10 @@ public class BipartiteGraph<T> {
 
         findLabel(parentLabel).addChild(findLabel(childLabel));
         findLabel(childLabel).addParent(findLabel(parentLabel));
+
+        Edege edge = new Edege(edgeLabel,findLabel(parentLabel),findLabel(childLabel));
+        edges.add(edge);
+
         return true;
 
 
@@ -252,4 +259,15 @@ public class BipartiteGraph<T> {
             }
         }
     }
+
+    private void checkRep(){
+        for (Edege<T>  i : edges)
+            assert (findLabel(i.getParent().getLable())==null);
+            assert (findLabel(i.getChild().getLabel())==null);
+
+
+
+
+    }
+    
 }
