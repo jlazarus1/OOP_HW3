@@ -54,7 +54,7 @@ public class BipartiteGraph<T> {
      * if nodeLabel == null, will throw exception.
      *
      */
-    public <T> void addWhiteNode(T nodeLabel) throws NullPointerException
+    public void addWhiteNode(T nodeLabel) throws NullPointerException
     {
         if (nodeLabel == null) throw new NullPointerException();
         Vertex<T> vert = new Vertex<T>(nodeLabel, true);
@@ -62,6 +62,30 @@ public class BipartiteGraph<T> {
 
 
     }
+
+
+
+    /*
+    * @requires nothing
+    * @ returns reference to the vertex of contained label. if no vertex is found, returns null
+     */
+
+    private Vertex<T> findLabel(T label) throws  NullPointerException{
+
+        if (label == null) throw new NullPointerException();
+        for (Vertex<T> i : blackVertices)
+            if(i.equals(label)) return i;
+
+        for (Vertex<T> i : whiteVertices)
+            if(i.equals(label))return i;
+
+        return null;
+
+    }
+
+
+
+
 
 
     /*
@@ -73,24 +97,23 @@ public class BipartiteGraph<T> {
     *
      */
 
-    private Vertex<T> findLabel(T label){
-
-        for (Vertex<T> i : blackVertices)
-            if(i.equals(label)) return i;
-
-        for (Vertex<T> i : whiteVertices)
-            if(i.equals(label))return i;
 
 
-        return null;
 
-    }
 
-    public <T> boolean addEdge(T parentLabel, T childLabel, T edgeLabel) throws NullPointerException{
+    public boolean addEdge(T parentLabel, T childLabel, T edgeLabel) throws NullPointerException{
 
         if (parentLabel ==null || childLabel == null || edgeLabel == null) throw new NullPointerException();
 
+        // check if the parent and child labels exist in the graph
+        if (findLabel(parentLabel)==null || findLabel(childLabel) == null) return  false;
 
+        // check if both parent and child are white, if so you may not connect them
+        if (findLabel(parentLabel).getIsVertexWhite() == findLabel(childLabel).getIsVertexWhite()) return false;
+
+        findLabel(parentLabel).addChild(findLabel(childLabel));
+        findLabel(childLabel).addParent(findLabel(parentLabel));
+        return true;
 
 
 
@@ -102,7 +125,17 @@ public class BipartiteGraph<T> {
     *@effects returns an ArrayList of type T with all the elements of black nodes from the graph. holds the reference to the objects themselves
     *@returns an array list with references to the black nodes in graph.
      */
-    public ArrayList<T> listBlackNodes(){return}
+
+    public ArrayList<T> listBlackNodes(){
+
+        ArrayList<T> values = new ArrayList<T>();
+
+        for (Vertex<T> i : blackVertices)
+            values.add(i.getLable());
+
+      return values;
+    }
+
 
     /*
      *@requires T must be immutable and have an overridden equals method
