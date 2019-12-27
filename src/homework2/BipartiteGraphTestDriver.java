@@ -15,8 +15,10 @@ public class BipartiteGraphTestDriver {
      * @effects Constructs a new test driver.
      */
     public BipartiteGraphTestDriver () {
-    	// TODO: Implement this constructor
+
+
         graphs = new HashMap<String, BipartiteGraph<String>>();
+
 
     }
 
@@ -28,8 +30,9 @@ public class BipartiteGraphTestDriver {
      * 			empty.
      */
     public void createGraph(String graphName) {
-        // TODO: Implement this method
 
+        BipartiteGraph graph = new BipartiteGraph();
+        graphs.put(graphName,graph);
     	
     }
 
@@ -45,7 +48,8 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addBlackNode(String graphName, String nodeName) {
-    	// TODO: Implement this method
+
+        graphs.get(graphName).addBlackNode(nodeName);
     	
     	
     }
@@ -62,7 +66,7 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addWhiteNode(String graphName, String nodeName) {
-    	//TODO: Implement this method
+    	graphs.get(graphName).addWhiteNode(nodeName);
     	
     	
     }
@@ -85,9 +89,9 @@ public class BipartiteGraphTestDriver {
     public void addEdge(String graphName,
     					String parentName, String childName, 
                         String edgeLabel) {
-    	//TODO: Implement this method
-    	
-    	
+
+    	graphs.get(graphName).addEdge(parentName,childName,edgeLabel);
+
     }
 
     
@@ -98,8 +102,16 @@ public class BipartiteGraphTestDriver {
      */
     public String listBlackNodes(String graphName) {
     	//TODO: Implement this method
-    	
-    	return "asd";
+
+        String list = new String();
+        BipartiteGraph<String> bg = new BipartiteGraph<String>();
+
+        ArrayList<String> labels = bg.listBlackNodes();
+
+        for (String i : labels)
+            list = list + i + " ";
+
+    	return list;
     }
 
     
@@ -109,9 +121,15 @@ public class BipartiteGraphTestDriver {
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listWhiteNodes(String graphName) {
-    	//TODO: Implement this method
-    	
-    	return "asd";
+        String list = new String();
+        BipartiteGraph<String> bg = new BipartiteGraph<String>();
+
+        ArrayList<String> labels = bg.listWhiteNodes();
+
+        for (String i : labels)
+            list = list + i + " ";
+
+        return list;
     }
 
     
