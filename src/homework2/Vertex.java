@@ -6,38 +6,34 @@ public class Vertex<T> {
 
     private T lable;
     private boolean isVertexWhite;
-    private ArrayList<T> parents;
-    private ArrayList<T> children;
+    private ArrayList<Vertex<T>> parents;
+    private ArrayList<Vertex<T>> children;
 
 
     public Vertex(T lable, boolean isWhite) {
         this.lable = lable;
         this.isVertexWhite = isWhite;
-        this.parents = new ArrayList<T>();
-        this.children = new ArrayList<T>();;
+        this.parents = new ArrayList<Vertex<T>>();
+        this.children = new ArrayList<Vertex<T>>();;
     }
     public T getLable(){
         return lable;
     }
-    public boolean addParent(Vertex<T> parent){
-        if(this.isVertexWhite == parent.getIsVertexWhite()) return false;
-        this.parents.add(parent.getLable());
-        return true;
+    public void addParent(Vertex<T> parent){
+        this.parents.add(parent);
     }
 
-    public boolean addChild(Vertex<T> child){
-        if(this.isVertexWhite == child.getIsVertexWhite()) return false;
-        this.parents.add(child.getLable());
-        return true;
+    public void addChild(Vertex<T> child){
+        this.parents.add(child);
     }
 
-    public ArrayList<T> getChildren(){
-        ArrayList<T> ret = new ArrayList<>(children);
+    public ArrayList<Vertex<T>> getChildren(){
+        ArrayList<Vertex<T>> ret = new ArrayList<Vertex<T>>(children);
         return ret;
     }
 
-    public ArrayList<T> getParents(){
-        ArrayList<T> ret = new ArrayList<>(parents);
+    public ArrayList<Vertex<T>> getParents(){
+        ArrayList<Vertex<T>> ret = new ArrayList<Vertex<T>>(parents);
         return ret;
     }
     public boolean getIsVertexWhite(){

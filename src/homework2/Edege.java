@@ -19,6 +19,9 @@ public class Edege<T> {
     public Vertex<T> getChild(){
         return child;
     }
+    public T getLable(){
+        return lable;
+    }
     public void setChild(Vertex<T> child){
         this.child = child;
     }
