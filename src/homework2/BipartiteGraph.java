@@ -17,11 +17,6 @@ public class BipartiteGraph<T> {
     private ArrayList<Vertex<T>> whiteVertices;
     private ArrayList<Edege<T>> edges;
 
-    public BipartiteGraph() {
-        blackVertices = new ArrayList<Vertex<T>>();
-        whiteVertices = new ArrayList<Vertex<T>>();
-        edges = new ArrayList<Edege<T>>();
-    }
 
     /*
      * @requires type must be a type that is immutable and has an overridden equals method
@@ -29,18 +24,27 @@ public class BipartiteGraph<T> {
      * @effects creates a new graph with graphLabel as its Label. if graphLabel is null, throws exception
      */
 
-    public <T> BipartiteGraph(T graphLabel) throws NullPointerException{}
+    public BipartiteGraph() {
+        blackVertices = new ArrayList<Vertex<T>>();
+        whiteVertices = new ArrayList<Vertex<T>>();
+        edges = new ArrayList<Edege<T>>();
+    }
 
 
     /*
-    *@requires T must have an overridden equals method
+    *  @requires T must have an overridden equals method
     * @modifies this.
     * @effects creates a graph with a black node with nodeLabel as label.
     * if nodeLabel == null, will throw exception.
     *
      */
-    public <T> void addBlackNode(T nodeLabel) throws NullPointerException
-    {}
+    public void addBlackNode(T nodeLabel) throws NullPointerException
+    {
+        if (nodeLabel == null) throw new NullPointerException();
+        Vertex<T> vert= new Vertex<T>(nodeLabel, false);
+        blackVertices.add(vert);
+
+    }
 
 
     /*
@@ -51,7 +55,13 @@ public class BipartiteGraph<T> {
      *
      */
     public <T> void addWhiteNode(T nodeLabel) throws NullPointerException
-    {}
+    {
+        if (nodeLabel == null) throw new NullPointerException();
+        Vertex<T> vert = new Vertex<T>(nodeLabel, true);
+        whiteVertices.add(vert);
+
+
+    }
 
 
     /*
@@ -63,7 +73,28 @@ public class BipartiteGraph<T> {
     *
      */
 
-    public <T> void addEdge(T parentLabel, T childLabel, T edgeLabel) throws NullPointerException{}
+    private Vertex<T> findLabel(T label){
+
+        for (Vertex<T> i : blackVertices)
+            if(i.equals(label)) return i;
+
+        for (Vertex<T> i : whiteVertices)
+            if(i.equals(label))return i;
+
+
+        return null;
+
+    }
+
+    public <T> boolean addEdge(T parentLabel, T childLabel, T edgeLabel) throws NullPointerException{
+
+        if (parentLabel ==null || childLabel == null || edgeLabel == null) throw new NullPointerException();
+
+
+
+
+
+    }
 
     /*
     *@requires T must be immutable and have an overridden equals method
@@ -89,7 +120,7 @@ public class BipartiteGraph<T> {
     * @effects returns an arraylist of the children of the parent label. if parentLabel is null or non existent
     *          throws an exception.
      */
-    public <T> ArrayList<T> listChildren(T parentLabel) throws NullPointerException {}
+    public ArrayList<T> listChildren(T parentLabel) throws NullPointerException {}
 
     /*
      *@requires T must be immutable and override equals method
