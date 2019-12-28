@@ -78,7 +78,7 @@ public class BipartiteGraph<T> {
     * @ returns reference to the vertex of contained label. if no vertex is found, returns null
      */
 
-    private Vertex<T> findLabel(T label) throws  NullPointerException{
+    public Vertex<T> findLabel(T label) throws  NullPointerException{
 
         if (label == null) throw new NullPointerException();
         for (Vertex<T> i : blackVertices)
