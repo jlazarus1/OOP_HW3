@@ -24,7 +24,7 @@ public class Vertex<T> {
     }
 
     public void addChild(Vertex<T> child){
-        this.parents.add(child);
+        this.children.add(child);
     }
 
     public ArrayList<Vertex<T>> getChildren(){
@@ -42,14 +42,14 @@ public class Vertex<T> {
 
     public void removeChild(Vertex<T> child){
         for(Vertex<T> i : children){
-            if(i.equals(child.getLable())){
+            if(i.getLable().equals(child.getLable())){
                 children.remove(i);
             }
         }
     }
     public void removeParent(Vertex<T> parent){
         for(Vertex<T> i : parents){
-            if(i.equals(parent.getLable())){
+            if(i.getLable().equals(parent.getLable())){
                 children.remove(i);
             }
         }

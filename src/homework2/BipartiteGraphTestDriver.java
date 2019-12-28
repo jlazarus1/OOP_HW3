@@ -30,7 +30,7 @@ public class BipartiteGraphTestDriver {
      * 			empty.
      */
     public void createGraph(String graphName) {
-
+        if(graphs.containsKey(graphName)) return;
         BipartiteGraph graph = new BipartiteGraph();
         graphs.put(graphName,graph);
     	
@@ -49,7 +49,9 @@ public class BipartiteGraphTestDriver {
      */
     public void addBlackNode(String graphName, String nodeName) {
 
-        graphs.get(graphName).addBlackNode(nodeName);
+        if(graphs.containsKey(graphName)) {
+            graphs.get(graphName).addBlackNode(nodeName);
+        }
     	
     	
     }
@@ -66,9 +68,10 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addWhiteNode(String graphName, String nodeName) {
-    	graphs.get(graphName).addWhiteNode(nodeName);
-    	
-    	
+        if(graphs.containsKey(graphName)) {
+            graphs.get(graphName).addWhiteNode(nodeName);
+        }
+
     }
 
     
@@ -89,8 +92,9 @@ public class BipartiteGraphTestDriver {
     public void addEdge(String graphName,
     					String parentName, String childName, 
                         String edgeLabel) {
-
-    	graphs.get(graphName).addEdge(parentName,childName,edgeLabel);
+        if(graphs.containsKey(graphName)) {
+            graphs.get(graphName).addEdge(parentName,childName,edgeLabel);
+        }
 
     }
 
@@ -104,12 +108,17 @@ public class BipartiteGraphTestDriver {
     	//TODO: Implement this method
 
         String list = new String();
-        BipartiteGraph<String> bg = new BipartiteGraph<String>();
+        if(!graphs.containsKey(graphName)) return list;
+        BipartiteGraph<String> bg = graphs.get(graphName);
 
         ArrayList<String> labels = bg.listBlackNodes();
-
-        for (String i : labels)
-            list = list + i + " ";
+        Collections.sort(labels);
+        boolean firstIter = true;
+        for (String i : labels) {
+            if (!firstIter) list += " ";
+            firstIter = false;
+            list += i;
+        }
 
     	return list;
     }
@@ -122,13 +131,17 @@ public class BipartiteGraphTestDriver {
      */
     public String listWhiteNodes(String graphName) {
         String list = new String();
-        BipartiteGraph<String> bg = new BipartiteGraph<String>();
+        if(!graphs.containsKey(graphName)) return list;
+        BipartiteGraph<String> bg = graphs.get(graphName);
 
         ArrayList<String> labels = bg.listWhiteNodes();
-
-        for (String i : labels)
-            list = list + i + " ";
-
+        Collections.sort(labels);
+        boolean firstIter = true;
+        for (String i : labels) {
+            if (!firstIter) list += " ";
+            firstIter = false;
+            list += i;
+        }
         return list;
     }
 
@@ -141,10 +154,15 @@ public class BipartiteGraphTestDriver {
     public String listChildren(String graphName, String parentName) {
     	//TODO: Implement this method
         String list = new String();
+        if(!graphs.containsKey(graphName)) return list;
         BipartiteGraph<String> bg = graphs.get(graphName);
-        ArrayList<String> lables = bg.listParent(parentName);
-        for(String i : lables){
-            list = list + i + " ";
+        ArrayList<String> labels = bg.listChildren(parentName);
+        Collections.sort(labels);
+        boolean firstIter = true;
+            for (String i : labels) {
+                if (!firstIter) list += " ";
+                firstIter = false;
+                list += i;
         }
     	return list;
     }
@@ -158,12 +176,18 @@ public class BipartiteGraphTestDriver {
     public String listParents(String graphName, String childName) {
     	//TODO: Implement this method
         String list = new String();
+        if(!graphs.containsKey(graphName)) return list;
         BipartiteGraph<String> bg = graphs.get(graphName);
-        ArrayList<String> lables = bg.listParent(childName);
-        for(String i : lables){
-            list = list + i + " ";
+        ArrayList<String> labels = bg.listParent(childName);
+        Collections.sort(labels);
+        boolean firstIter = true;
+        for (String i : labels) {
+            if (!firstIter) list += " ";
+            firstIter = false;
+            list += i;
         }
-    	return list;
+
+        return list;
     }
 
     
@@ -176,8 +200,11 @@ public class BipartiteGraphTestDriver {
     public String getChildByEdgeLabel(String graphName, String parentName,
     								   String edgeLabel) {
     	//TODO: Implement this method
+        if(!graphs.containsKey(graphName)) return new String();
         BipartiteGraph<String> bg = graphs.get(graphName);
-    	return bg.getChildByEdgeLabel(parentName , edgeLabel);
+    	String res = bg.getChildByEdgeLabel(parentName , edgeLabel);
+        if(res == null) return new String();
+        return res;
     }
 
     
@@ -190,7 +217,10 @@ public class BipartiteGraphTestDriver {
     public String getParentByEdgeLabel(String graphName, String childName,
     									String edgeLabel) {
     	//TODO: Implement this method
+        if(!graphs.containsKey(graphName)) return new String();
     	BipartiteGraph<String> bg = graphs.get(graphName);
-    	return bg.getParentdByEdgeLabel(childName , edgeLabel);
+    	String res = bg.getParentdByEdgeLabel(childName , edgeLabel);
+    	if(res == null) return new String();
+    	return res;
     }
 }

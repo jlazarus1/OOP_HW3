@@ -12,6 +12,7 @@ This class Implements a generic Bipartite Graph. The nodes and Vertexes may be o
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class BipartiteGraph<T> {
@@ -81,10 +82,10 @@ public class BipartiteGraph<T> {
 
         if (label == null) throw new NullPointerException();
         for (Vertex<T> i : blackVertices)
-            if(i.equals(label)) return i;
+            if(i.getLable().equals(label)) return i;
 
         for (Vertex<T> i : whiteVertices)
-            if(i.equals(label))return i;
+            if(i.getLable().equals(label))return i;
 
         return null;
 
@@ -111,17 +112,19 @@ public class BipartiteGraph<T> {
     public boolean addEdge(T parentLabel, T childLabel, T edgeLabel) throws NullPointerException{
         checkRep();
         if (parentLabel ==null || childLabel == null || edgeLabel == null) throw new NullPointerException();
+        Vertex<T> parent = findLabel(parentLabel);
+        Vertex<T> child = findLabel(childLabel);
 
         // check if the parent and child labels exist in the graph
-        if (findLabel(parentLabel)==null || findLabel(childLabel) == null) return  false;
+        if (parent == null || child == null) return  false;
 
         // check if both parent and child are white, if so you may not connect them
-        if (findLabel(parentLabel).getIsVertexWhite() == findLabel(childLabel).getIsVertexWhite()) return false;
+        if (parent.getIsVertexWhite() == child.getIsVertexWhite()) return false;
 
-        findLabel(parentLabel).addChild(findLabel(childLabel));
-        findLabel(childLabel).addParent(findLabel(parentLabel));
+        parent.addChild(child);
+        child.addParent(parent);
 
-        Edge edge = new Edge(edgeLabel,findLabel(parentLabel),findLabel(childLabel));
+        Edge edge = new Edge(edgeLabel , parent , child);
         edges.add(edge);
         checkRep();
         return true;
@@ -143,7 +146,6 @@ public class BipartiteGraph<T> {
 
         for (Vertex<T> i : blackVertices)
             values.add(i.getLable());
-
       return values;
     }
 
@@ -173,10 +175,10 @@ public class BipartiteGraph<T> {
      */
     public ArrayList<T> listChildren(T parentLabel) throws NullPointerException {
         if(parentLabel == null) throw new NullPointerException();
-        Vertex<T> parent = findLabel(parentLabel);
-        if(parent == null) return null;
-        ArrayList<Vertex<T>> children = parent.getChildren();
         ArrayList<T> childrenLables = new ArrayList<T>();
+        Vertex<T> parent = findLabel(parentLabel);
+        if(parent == null) return childrenLables;
+        ArrayList<Vertex<T>> children = parent.getChildren();
         for(Vertex<T> i : children){
             childrenLables.add(i.getLable());
         }
@@ -191,10 +193,10 @@ public class BipartiteGraph<T> {
      */
     public ArrayList<T> listParent(T childLabel) throws NullPointerException {
         if(childLabel == null) throw new NullPointerException();
-        Vertex<T> child = findLabel(childLabel);
-        if(child == null) return null;
-        ArrayList<Vertex<T>> parents = child.getParents();
         ArrayList<T> parentsLables = new ArrayList<T>();
+        Vertex<T> child = findLabel(childLabel);
+        if(child == null) return parentsLables;
+        ArrayList<Vertex<T>> parents = child.getParents();
         for(Vertex<T> i : parents){
             parentsLables.add(i.getLable());
         }
@@ -266,11 +268,29 @@ public class BipartiteGraph<T> {
 
     private void checkRep(){
         for (Edge<T> i : edges) {
-            assert (findLabel(i.getParent().getLable()) == null);
-            assert (findLabel(i.getChild().getLable())== null);
+            assert (findLabel(i.getParent().getLable()) != null);
+            assert (findLabel(i.getChild().getLable()) != null);
         }
 
 
+    }
+
+    public void removeVertex(Vertex<T> v){
+        if(v == null) {
+            return;
+        }
+        Vertex<T> vertex = findLabel(v.getLable());
+        if(vertex == null) {
+            return;
+        }
+        for(Edge<T> i : edges){
+            if(i.getChild().getLable().equals(vertex.getLable())){
+                removeEdgeByChild(vertex.getLable() , i.getLable());
+            }
+            if(i.getParent().getLable().equals(vertex.getLable())){
+                removeEdgeByParent(vertex.getLable() , i.getLable());
+            }
+        }
     }
 
 }
