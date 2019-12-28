@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class BipartiteGraph<T> {
     // Representation Invariant - BipartiteGraph must be != null must not have edges that are not connected to either father or child.
+
     private ArrayList<Vertex<T>> blackVertices;
     private ArrayList<Vertex<T>> whiteVertices;
     private ArrayList<Edge<T>> edges;
@@ -43,10 +44,12 @@ public class BipartiteGraph<T> {
      */
     public void addBlackNode(T nodeLabel) throws NullPointerException
     {
+
+        checkRep();
         if (nodeLabel == null) throw new NullPointerException();
         Vertex<T> vert= new Vertex<T>(nodeLabel, false);
         blackVertices.add(vert);
-
+        checkRep();
     }
 
 
@@ -59,10 +62,11 @@ public class BipartiteGraph<T> {
      */
     public void addWhiteNode(T nodeLabel) throws NullPointerException
     {
+        checkRep();
         if (nodeLabel == null) throw new NullPointerException();
         Vertex<T> vert = new Vertex<T>(nodeLabel, true);
         whiteVertices.add(vert);
-
+        checkRep();
 
     }
 
@@ -105,7 +109,7 @@ public class BipartiteGraph<T> {
 
 
     public boolean addEdge(T parentLabel, T childLabel, T edgeLabel) throws NullPointerException{
-
+        checkRep();
         if (parentLabel ==null || childLabel == null || edgeLabel == null) throw new NullPointerException();
 
         // check if the parent and child labels exist in the graph
@@ -119,7 +123,7 @@ public class BipartiteGraph<T> {
 
         Edge edge = new Edge(edgeLabel,findLabel(parentLabel),findLabel(childLabel));
         edges.add(edge);
-
+        checkRep();
         return true;
 
 
@@ -261,11 +265,10 @@ public class BipartiteGraph<T> {
     }
 
     private void checkRep(){
-        for (Edge<T> i : edges)
-            assert (findLabel(i.getParent().getLable())==null);
-            assert (findLabel(i.getChild().getLabel())==null);
-
-
+        for (Edge<T> i : edges) {
+            assert (findLabel(i.getParent().getLable()) == null);
+            assert (findLabel(i.getChild().getLable())== null);
+        }
 
 
     }
