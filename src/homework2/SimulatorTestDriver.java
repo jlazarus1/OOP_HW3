@@ -42,7 +42,8 @@ public class SimulatorTestDriver {
 	 *          the simulator named simName.
 	 */
 	public void addChannel(String simName, String channelName, int limit) {
-	    // TODO: Implement this method
+	    Simulator sim = simulators.get(simName);
+	    sim.addChannel(channelName,limit);
 	}
 
 	/**
@@ -56,7 +57,8 @@ public class SimulatorTestDriver {
 	 *          it to the simulator named simName.
 	 */
 	public void addParticipant(String simName, String participantName, String product, int amount) {
-        // TODO: Implement this method
+        Simulator sim = simulators.get(simName);
+        sim.addParticipant(participantName,product,amount);
 	}
 
 	/**
@@ -71,7 +73,8 @@ public class SimulatorTestDriver {
 	 *          is the String edgeLabel.
 	 */
 	public void addEdge(String simName, String parentName, String childName, String edgeLabel) {
-        // TODO: Implement this method
+        Simulator<String,Transaction> sim = simulators.get(simName);
+      	sim.findLabel()
 	}
 
 	/**
@@ -82,7 +85,9 @@ public class SimulatorTestDriver {
 	 *          simulator named simName.
 	 */
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
-        // TODO: Implement this method
+        Simulator<String,Transaction> sim = simulators.get(simName);
+        Pipe<String> temp = new Pipe<String>();
+        temp.setLabel(channelName);
     }
 	
 	

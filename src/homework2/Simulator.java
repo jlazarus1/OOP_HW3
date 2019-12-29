@@ -7,10 +7,8 @@ import java.util.ArrayList;
  */
  public class Simulator <E, T extends Transaction> extends BipartiteGraph<Vertex<E>> {
 
-    BipartiteGraph<Vertex<E>> graph_to_sim;
 
-
-    public Simulator(BipartiteGraph graph){
+    public Simulator(BipartiteGraph<Vertex<E>> graph){
        super();
     }
 
@@ -34,24 +32,19 @@ public void simulate(){
 //TODO use a constructor with channelName
 public  void addChannel(E channelName, int limit){
 
-    Pipe temp = new Pipe();
+    Pipe<E> temp = new Pipe<E>();
     temp.setCapacity(limit);
     temp.setLabel(channelName);
-    this.addBlackNode(temp);
 
 }
 
 public void addParticipant(E participantName, E product, int amount ){
 
-    Filter temp = new Filter();
-    Item item = new Item(product,amount);
-    temp.addItem(item);
+    Filter<E> temp = new Filter<E>();
+    Item<E> item = new Item<E>(product,amount);
+    temp.addItem(product);
     this.addWhiteNode(temp);
 }
-
-
-
-
 
 
 
@@ -61,7 +54,7 @@ public void addParticipant(E participantName, E product, int amount ){
 * @Requires
 * @
  */
-public void sendTransaction(Pipe edge, T tx) {
+public void sendTransaction(Pipe<E> edge, T tx) {
 
   if (tx.getAmount() > edge.getCapacity())
   {
@@ -71,4 +64,7 @@ public void sendTransaction(Pipe edge, T tx) {
   edge.setCapacity(edge.getCapacity()-tx.getAmount());
 }
 
+
 }
+
+
