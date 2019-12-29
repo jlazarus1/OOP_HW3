@@ -1,15 +1,18 @@
 package homework2;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
+
 /*
 * this class implements a simulator for a BipartiteGraph. It extends BipartiteGraph
 *
  */
- public class Simulator <E, T extends Transaction> extends BipartiteGraph<Vertex<E>> {
+ public class Simulator <V , O>  {
 
+     private BipartiteGraph<Node<V>> graph;
 
-    public Simulator(BipartiteGraph<Vertex<E>> graph){
-       super();
+    public Simulator(){
+     graph = new BipartiteGraph<Node<V>>();
     }
 
 
@@ -17,52 +20,37 @@ import java.util.ArrayList;
     * @Requires
      */
 public void simulate(){
-
-        for ( Vertex<E> i : this.listBlackNodes())
-        {
-            i.simulate(this);
-        }
-
-        for (Vertex<E> i : this.listWhiteNodes())
-        {
-         i.simulate(this);
-        }
-
-}
-//TODO use a constructor with channelName
-public  void addChannel(E channelName, int limit){
-
-    Pipe<E> temp = new Pipe<E>();
-    temp.setCapacity(limit);
-    temp.setLabel(channelName);
+    ArrayList blacks = graph.listBlackNodes();
+    ArrayList whites = graph.listBlackNodes();
+    ListIterator blacksIter = blacks.listIterator();
+    ListIterator whitesIter = whites.listIterator();
+    while(blacksIter.hasNext()){
+        Pipe<V> s = (Pipe<V>) blacksIter.next();
+        s.simulate(graph);
+    }
+    while(whitesIter.hasNext()){
+        Filter<V , O> s = (Filter<V , O>) whitesIter.next();
+        s.simulate(graph);
+    }
 
 }
 
-public void addParticipant(E participantName, E product, int amount ){
-
-    Filter<E> temp = new Filter<E>();
-    Item<E> item = new Item<E>(product,amount);
-    temp.addItem(product);
-    this.addWhiteNode(temp);
+public  void addPipe(Pipe<V> pipe) throws NullPointerException{ // Black Vertex
+    if(pipe == null) throw new NullPointerException();
+    graph.addBlackNode(pipe);
 }
 
-
-
-
-
-/*
-* @Requires
-* @
- */
-public void sendTransaction(Pipe<E> edge, T tx) {
-
-  if (tx.getAmount() > edge.getCapacity())
-  {
-      return;
-  }
-
-  edge.setCapacity(edge.getCapacity()-tx.getAmount());
+public void addFilter(Filter<V , O> filter) throws NullPointerException{
+    if(filter == null) throw new NullPointerException();
+    graph.addWhiteNode(filter);
 }
+
+public void addEdge(V parentName, V childName, V edgeLabel){
+//    Node<V>  parent = new Node<V>(parentName);
+//    graph.addEdge(Node<V>parentName , childName , edgeLabel);
+
+}
+
 
 
 }

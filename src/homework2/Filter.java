@@ -2,32 +2,30 @@ package homework2;
 
 import java.util.ArrayList;
 
-public class Filter<E>  extends Vertex<E> {
+public class Filter<T, O> extends Node<T> {
 
-    ArrayList<E> buffer;
-
-
- public Filter(){
-     this.buffer= new ArrayList<E>();
-
- }
+    ArrayList<O> buffer;
 
 
- public void addItem(E item){
+    public Filter(T label) {
+        super(label);
+        this.buffer = new ArrayList<O>();
 
-        buffer.add(item);
     }
 
 
- public boolean removeItem(E item){
-     if (buffer.remove(item)==true)
-         return true;
+    public void addItem(O item) {
+        if (item != null)
+            buffer.add(item);
+    }
 
-     else return false;
- }
 
-    @Override
+    public boolean removeItem(O item) {
+        if (item == null) return false;
+        return buffer.remove(item);
+    }
+
     public void simulate(BipartiteGraph graph) {
-        //TODO
+        System.out.println("I am simulating pipe");
     }
 }

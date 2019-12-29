@@ -1,9 +1,9 @@
 package homework2;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
 
 /**
  * This class implements a testing driver for Simulator. The driver manages
@@ -18,7 +18,7 @@ public class SimulatorTestDriver {
 	 * @effects Constructs a new test driver.
 	 */
 	public SimulatorTestDriver() {
-        // TODO: Implement this constructor
+        simulators = new HashMap<String, Simulator<String, Transaction>>();
 	}
 
 	/**
@@ -29,6 +29,7 @@ public class SimulatorTestDriver {
 	 */
 	public void createSimulator(String simName) {
 	    // TODO: Implement this method
+		simulators.put(simName , new Simulator<String, Transaction>());
 	}
 
 	/**
@@ -42,8 +43,10 @@ public class SimulatorTestDriver {
 	 *          the simulator named simName.
 	 */
 	public void addChannel(String simName, String channelName, int limit) {
+		if(!simulators.containsKey(simName)) return;
 	    Simulator sim = simulators.get(simName);
-	    sim.addChannel(channelName,limit);
+	    Pipe<String> channel = new Pipe<>(channelName , limit);
+	    sim.addPipe(channel);
 	}
 
 	/**
@@ -57,7 +60,8 @@ public class SimulatorTestDriver {
 	 *          it to the simulator named simName.
 	 */
 	public void addParticipant(String simName, String participantName, String product, int amount) {
-        Simulator sim = simulators.get(simName);
+        if(!simulators.containsKey(simName)) return;
+		Simulator sim = simulators.get(simName);
         sim.addParticipant(participantName,product,amount);
 	}
 
@@ -74,7 +78,7 @@ public class SimulatorTestDriver {
 	 */
 	public void addEdge(String simName, String parentName, String childName, String edgeLabel) {
         Simulator<String,Transaction> sim = simulators.get(simName);
-      	sim.findLabel()
+      	sim.
 	}
 
 	/**

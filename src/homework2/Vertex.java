@@ -57,13 +57,4 @@ public class Vertex<T> implements Simulatable{
         }
     }
 
-    public void setLabel(T label){
-        this.label = label;
-
-    }
-
-    @Override
-    public void simulate(BipartiteGraph graph) {
-
-    }
 }
