@@ -7,7 +7,7 @@ package homework2;
 
 public class Transaction {
     private int amount;
-    private final String product;
+    private final String product ;
    
     
 	/**

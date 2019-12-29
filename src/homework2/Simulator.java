@@ -5,13 +5,13 @@ import java.util.ArrayList;
 * this class implements a simulator for a BipartiteGraph. It extends BipartiteGraph
 *
  */
- public class Simulator<E extends Simulatable<E>,T extends Simulatable<E>> extends BipartiteGraph {
+ public class Simulator <E, T extends Transaction> extends BipartiteGraph<Vertex<E>> {
 
-    BipartiteGraph<E> graph_to_sim;
+    BipartiteGraph<Vertex<E>> graph_to_sim;
 
 
     public Simulator(BipartiteGraph graph){
-        graph_to_sim = new BipartiteGraph();
+       super();
     }
 
 
@@ -20,28 +20,55 @@ import java.util.ArrayList;
      */
 public void simulate(){
 
-        for ( E i : graph_to_sim.listBlackNodes())
+        for ( Vertex<E> i : this.listBlackNodes())
         {
-            i.simulate(graph_to_sim);
+            i.simulate(this);
         }
 
-        for (E i : graph_to_sim.listWhiteNodes())
+        for (Vertex<E> i : this.listWhiteNodes())
         {
-         i.simulate(graph_to_sim);
+         i.simulate(this);
         }
 
+}
+//TODO use a constructor with channelName
+public  void addChannel(E channelName, int limit){
+
+    Pipe temp = new Pipe();
+    temp.setCapacity(limit);
+    temp.setLabel(channelName);
+    this.addBlackNode(temp);
 
 }
 
-public void sendTransaction(E edge, T tx){
+public void addParticipant(E participantName, E product, int amount ){
 
-    Vertex<E> label = graph_to_sim.findLabel(edge);
-    E l = label.getLable();
+    Filter temp = new Filter();
+    Item item = new Item(product,amount);
+    temp.addItem(item);
+    this.addWhiteNode(temp);
+}
 
 
 
 
 
+
+
+
+
+/*
+* @Requires
+* @
+ */
+public void sendTransaction(Pipe edge, T tx) {
+
+  if (tx.getAmount() > edge.getCapacity())
+  {
+      return;
+  }
+
+  edge.setCapacity(edge.getCapacity()-tx.getAmount());
 }
 
 }

@@ -2,22 +2,24 @@ package homework2;
 
 import java.util.ArrayList;
 
-public class Vertex<T> {
+public class Vertex<T> implements Simulatable{
 
-    private T lable;
+    private T label;
     private boolean isVertexWhite;
     private ArrayList<Vertex<T>> parents;
     private ArrayList<Vertex<T>> children;
 
+    public Vertex(){}
 
-    public Vertex(T lable, boolean isWhite) {
-        this.lable = lable;
+
+    public Vertex(T label, boolean isWhite) {
+        this.label = label;
         this.isVertexWhite = isWhite;
         this.parents = new ArrayList<Vertex<T>>();
         this.children = new ArrayList<Vertex<T>>();;
     }
-    public T getLable(){
-        return lable;
+    public T getLabel(){
+        return label;
     }
     public void addParent(Vertex<T> parent){
         this.parents.add(parent);
@@ -42,16 +44,26 @@ public class Vertex<T> {
 
     public void removeChild(Vertex<T> child){
         for(Vertex<T> i : children){
-            if(i.getLable().equals(child.getLable())){
+            if(i.getLabel().equals(child.getLabel())){
                 children.remove(i);
             }
         }
     }
     public void removeParent(Vertex<T> parent){
         for(Vertex<T> i : parents){
-            if(i.getLable().equals(parent.getLable())){
+            if(i.getLabel().equals(parent.getLabel())){
                 children.remove(i);
             }
         }
+    }
+
+    public void setLabel(T label){
+        this.label = label;
+
+    }
+
+    @Override
+    public void simulate(BipartiteGraph graph) {
+
     }
 }
