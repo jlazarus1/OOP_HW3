@@ -9,10 +9,10 @@ import java.util.ListIterator;
  */
  public class Simulator <V , O>  {
 
-     private BipartiteGraph<Node<V>> graph;
+     private BipartiteGraph<Node<V,O>> graph;
 
     public Simulator(){
-     graph = new BipartiteGraph<Node<V>>();
+     graph = new BipartiteGraph<Node<V,O>>();
     }
 
 
@@ -25,7 +25,7 @@ public void simulate(){
     ListIterator blacksIter = blacks.listIterator();
     ListIterator whitesIter = whites.listIterator();
     while(blacksIter.hasNext()){
-        Pipe<V> s = (Pipe<V>) blacksIter.next();
+        Pipe<V,O> s = (Pipe<V,O>) blacksIter.next();
         s.simulate(graph);
     }
     while(whitesIter.hasNext()){
@@ -35,21 +35,60 @@ public void simulate(){
 
 }
 
-public  void addPipe(Pipe<V> pipe) throws NullPointerException{ // Black Vertex
+// TODO remove this method
+public BipartiteGraph<Node<V,O>> getGraph(){return graph;}
+
+public  void addPipe(Pipe<V,O> pipe) throws NullPointerException{ // Black Vertex
     if(pipe == null) throw new NullPointerException();
     graph.addBlackNode(pipe);
 }
+
+
 
 public void addFilter(Filter<V , O> filter) throws NullPointerException{
     if(filter == null) throw new NullPointerException();
     graph.addWhiteNode(filter);
 }
 
-public void addEdge(V parentName, V childName, V edgeLabel){
-//    Node<V>  parent = new Node<V>(parentName);
-//    graph.addEdge(Node<V>parentName , childName , edgeLabel);
+public Node<V,O> findNode(V label){
+    for (Node<V,O> i : graph.listBlackNodes())
+    {
+        if (i.getLabel().equals(label)) return i;
+    }
+    for (Node<V,O> i : graph.listWhiteNodes())
+    {
+        if (i.getLabel().equals(label)) return i;
+    }
+    return null;
+}
+
+public void sendTransaction(V label,O Tx)
+{
+    findNode(label);
+
 
 }
+
+
+public void addEdge(V parentName, V childName, V edgeLabel){
+    Node<V,O> edge = new NodeEdge<>(edgeLabel);
+
+    graph.addEdge(findNode(parentName),findNode(childName),edge);
+
+}
+
+//TODO for sure not correct, need to change
+public void printEdges(){
+    for (Edge<Node<V,O>> i: graph.listEdges())
+    {
+        System.out.println(i.getLable().getLabel());
+
+    }
+
+
+}
+
+
 
 
 

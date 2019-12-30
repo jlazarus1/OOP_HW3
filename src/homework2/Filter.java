@@ -2,11 +2,11 @@ package homework2;
 
 import java.util.ArrayList;
 
-public class Filter<T, O> extends Node<T> {
+public class Filter<T, O> extends Node<T,O> {
 
     ArrayList<O> buffer;
 
-
+public Filter(){}
     public Filter(T label) {
         super(label);
         this.buffer = new ArrayList<O>();

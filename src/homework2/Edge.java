@@ -2,7 +2,7 @@ package homework2;
 
 import java.util.ArrayList;
 
-public class Edge<T> {
+public class Edge<T>  {
     private T lable;
     private Vertex<T> parent;
     private Vertex<T> child;

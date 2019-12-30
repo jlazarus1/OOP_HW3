@@ -1,8 +1,5 @@
 package homework2;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.*;
 
 /**
@@ -44,8 +41,8 @@ public class SimulatorTestDriver {
 	 */
 	public void addChannel(String simName, String channelName, int limit) {
 		if(!simulators.containsKey(simName)) return;
-	    Simulator sim = simulators.get(simName);
-	    Pipe<String> channel = new Pipe<>(channelName , limit);
+	    Simulator<String,Transaction> sim = simulators.get(simName);
+	    Pipe<String,Transaction> channel = new Pipe<>(channelName , limit);
 	    sim.addPipe(channel);
 	}
 
@@ -61,8 +58,13 @@ public class SimulatorTestDriver {
 	 */
 	public void addParticipant(String simName, String participantName, String product, int amount) {
         if(!simulators.containsKey(simName)) return;
-		Simulator sim = simulators.get(simName);
-        sim.addParticipant(participantName,product,amount);
+		Simulator<String,Transaction> sim = simulators.get(simName);
+		Filter<String,Transaction> participant = new Participant<String, Transaction>();
+		participant.setLabel(participantName);
+		Transaction tx = new Transaction(product,amount);
+		participant.addItem(tx);
+        sim.addFilter(participant);
+
 	}
 
 	/**
@@ -78,7 +80,7 @@ public class SimulatorTestDriver {
 	 */
 	public void addEdge(String simName, String parentName, String childName, String edgeLabel) {
         Simulator<String,Transaction> sim = simulators.get(simName);
-      	sim.
+        sim.addEdge(parentName,childName,edgeLabel);
 	}
 
 	/**
@@ -88,10 +90,12 @@ public class SimulatorTestDriver {
 	 * @effects pushes the Transaction into the channel named channelName in the
 	 *          simulator named simName.
 	 */
+	//TODO
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
         Simulator<String,Transaction> sim = simulators.get(simName);
-        Pipe<String> temp = new Pipe<String>();
-        temp.setLabel(channelName);
+        Node t = sim.findNode(channelName);
+        t.getClass();
+
     }
 	
 	
@@ -101,7 +105,19 @@ public class SimulatorTestDriver {
 	 *         channel named channelName in the simulator named simName.
 	 */
 	public String listContents(String simName, String channelName) {
-        // TODO: Implement this method
+
+		String list = new String();
+		Simulator<String,Transaction> sim = simulators.get(simName);
+		ArrayList<Transaction> transactions__ = sim.findNode(channelName).getItems();
+		boolean firstIter = true;
+		for (Transaction i : transactions__) {
+			if (!firstIter) list += " ";
+			firstIter = false;
+			list += i;
+		}
+
+		return list;
+
 	}
 
 
@@ -110,7 +126,15 @@ public class SimulatorTestDriver {
 	 * @return The sum of all Transaction amount of stored products that one has in his storage buffer.
 	 */
 	public double getParticipantStorageAmount(String simName, String participantName) {
-        // TODO: Implement this method
+		double amount = 0;
+        Simulator<String,Transaction> sim = simulators.get(simName);
+        ArrayList<Transaction> list = sim.findNode(participantName).getItems();
+        for (Transaction i : list)
+		{
+			amount += i.getAmount();
+		}
+
+        return amount;
 	}
 
 
@@ -118,8 +142,18 @@ public class SimulatorTestDriver {
 	 * @requires addParticipant(participantName)
 	 * @return The sum of all Transaction amount of waiting to be recycled products that one has.
 	 */
+
+	//TODO not sure about this cast, make sure it is correct
 	public double getParticipantToRecycleAmount(String simName, String participantName) {
-        // TODO: Implement this method
+		double sum=0;
+		Simulator<String,Transaction> sim = simulators.get(simName);
+		Participant<String,Transaction> participant = (Participant<String, Transaction>) sim.findNode(participantName);
+		for (Transaction i: participant.getRecycleList__())
+		{
+			sum+=i.getAmount();
+
+		}
+		return sum;
 	}
 
 
@@ -130,7 +164,8 @@ public class SimulatorTestDriver {
 	 * @effects runs simulator named simName for a single time slice.
 	 */
 	public void simulate(String simName) {
-        // TODO: Implement this method
+        Simulator<String,Transaction> sim = simulators.get(simName);
+        sim.simulate();
 	}
 
 	/**
@@ -140,7 +175,9 @@ public class SimulatorTestDriver {
 	 * @effects Prints the all edges.
 	 */
 	public void printAllEdges(String simName) {
-        // TODO: Implement this method
+
+		Simulator<String,Transaction> sim = simulators.get(simName);
+		sim.printEdges();
 	}
 
 }

@@ -2,7 +2,7 @@ package homework2;
 
 import java.util.ArrayList;
 
-public class Vertex<T> implements Simulatable{
+public class Vertex<T> {
 
     private T label;
     private boolean isVertexWhite;

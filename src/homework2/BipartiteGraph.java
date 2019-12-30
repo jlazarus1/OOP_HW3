@@ -163,6 +163,16 @@ public class BipartiteGraph<T> {
         return whiteNodes;
     }
 
+    /*
+    * @returns a new array list with the edges of this graph.
+     */
+
+    public ArrayList<Edge<T>> listEdges(){
+        ArrayList<Edge<T>> list = new ArrayList<Edge<T>>();
+        list = edges;
+        return list;
+    }
+
 
 
 
