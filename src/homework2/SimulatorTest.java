@@ -15,6 +15,7 @@ public class SimulatorTest {
         driver.addParticipant("sim1","par1","eggs",2);
         driver.addEdge("sim1","par1","ch1","edge1");
         driver.sendTransaction("sim1","ch1",tx);
+        driver.simulate("sim1");
 
 
 

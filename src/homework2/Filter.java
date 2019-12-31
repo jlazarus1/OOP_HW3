@@ -6,7 +6,9 @@ public class Filter<T, O> extends Node<T,O> {
 
     ArrayList<O> buffer;
 
-public Filter(){}
+public Filter(){
+    this.buffer = new ArrayList<O>();
+}
     public Filter(T label) {
         super(label);
         this.buffer = new ArrayList<O>();

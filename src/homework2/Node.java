@@ -6,7 +6,6 @@ abstract public class Node<T,O> implements Simulatable<T>{
     private T label;
     private ArrayList<O> items;
     private int amount;
-
     public Node(){}
     public Node(T label) {
         this.label = label;

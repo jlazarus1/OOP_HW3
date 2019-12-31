@@ -1,9 +1,11 @@
 package homework2;
 
-public class NodeEdge<T> extends Node<T> {
+public class NodeEdge<T,O> extends Node<T,O> {
     private T label;
-    public NodeEdge(){}
+
+
     public NodeEdge(T label) {
+        super(label);
         this.label = label;
     }
 

@@ -21,18 +21,14 @@ import java.util.ListIterator;
      */
 public void simulate(){
     ArrayList blacks = graph.listBlackNodes();
-    ArrayList whites = graph.listBlackNodes();
+    ArrayList<Node<V,O>> whites = graph.listBlackNodes();
     ListIterator blacksIter = blacks.listIterator();
     ListIterator whitesIter = whites.listIterator();
     while(blacksIter.hasNext()){
         Pipe<V,O> s = (Pipe<V,O>) blacksIter.next();
         s.simulate(graph);
     }
-    while(whitesIter.hasNext()){
-        Filter<V , O> s = (Filter<V , O>) whitesIter.next();
-        s.simulate(graph);
-    }
-
+ //TODO iterate over white nodes
 }
 
 // TODO remove this method
