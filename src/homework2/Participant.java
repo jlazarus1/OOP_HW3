@@ -1,24 +1,55 @@
 package homework2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.ListIterator;
 
-public class Participant<T,O> extends Filter<T,O> {
-    private ArrayList<O> RecycleList__ ;
+public class Participant implements Simulatable<String>{
+    String name;
+    private ArrayList<Transaction> donationBuff;
+    private final String wantedProduct;
+    private final int wantedAmount;
+    private int holdingAmount;
 
-    public Participant(){
-        super();
-        ArrayList<O> temp = new ArrayList<O>();
-        this.RecycleList__ = temp;
-
+    public Participant(String name , String wantedProduct , int wantedAmount){
+        holdingAmount = 0;
+        this.name = name;
+        this.wantedAmount = wantedAmount;
+        this.wantedProduct = wantedProduct;
+        donationBuff = new ArrayList<>();
     }
 
 
+    @Override
+    public void simulate(BipartiteGraph<String> graph) {
+        if(graph == null) return;
+        ArrayList<Object> children = graph.listChildrenObjects(name);
+        ListIterator<Object> iter = children.listIterator();
+        while(iter.hasNext() && donationBuff.size() != 0){
+            Channel child = (Channel) iter.next();
+            if(child.receiveTransaction(donationBuff.get(0))){
+                donationBuff.remove(0);
+                return;
+            }
+        }
 
-    public void addRecycle(O item){
-        RecycleList__.add(item);
     }
 
-    public ArrayList<O> getRecycleList__(){
-        return RecycleList__;
+    public void receiveTransaction(Transaction product){
+        if(product == null) return;
+        if(product.getProduct().equals(wantedProduct)){
+            if(holdingAmount < wantedAmount){
+                holdingAmount += product.getAmount();
+                if(holdingAmount > wantedAmount){
+                    int newAmount = holdingAmount - wantedAmount;
+                    Transaction newProduct = new Transaction(product.getProduct() , newAmount);
+                    holdingAmount = wantedAmount;
+                    donationBuff.add(newProduct);
+                }
+                return;
+            }
+        }
+        donationBuff.add(product);
+        return;
     }
 }

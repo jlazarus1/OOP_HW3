@@ -52,6 +52,15 @@ public class BipartiteGraph<T> {
         checkRep();
     }
 
+    public void addBlackNode(T nodeLabel , Object vertexType) throws NullPointerException
+    {
+
+        checkRep();
+        if (nodeLabel == null) throw new NullPointerException();
+        Vertex<T> vert= new Vertex<T>(nodeLabel, false , vertexType);
+        blackVertices.add(vert);
+        checkRep();
+    }
 
     /*
      *@requires  type T must have an overridden equals method
@@ -70,6 +79,15 @@ public class BipartiteGraph<T> {
 
     }
 
+    public void addWhiteNode(T nodeLabel , Object vertexType) throws NullPointerException
+    {
+        checkRep();
+        if (nodeLabel == null) throw new NullPointerException();
+        Vertex<T> vert = new Vertex<T>(nodeLabel, true , vertexType);
+        whiteVertices.add(vert);
+        checkRep();
+
+    }
 
 
     /*
@@ -300,6 +318,49 @@ public class BipartiteGraph<T> {
                 removeEdgeByParent(vertex.getLabel() , i.getLable());
             }
         }
+    }
+
+    public ArrayList<Object> listChildrenObjects(T parentName){
+        ArrayList<Object> childrenObjList = new ArrayList<>();
+        ArrayList<Vertex<T>> children = findLabel(parentName).getChildren();
+        for(Vertex<T> i : children){
+            childrenObjList.add(i.getActualNode());
+        }
+        return  childrenObjList;
+    }
+    public ArrayList<Object> listBlackObjects(){
+        ArrayList<Object> blackObjList = new ArrayList<>();
+        for(Vertex<T> i : blackVertices){
+            blackObjList.add(i.getActualNode());
+        }
+        return  blackObjList;
+    }
+    public ArrayList<Object> listWhiteObjects(){
+        ArrayList<Object> whiteObjList = new ArrayList<>();
+        for(Vertex<T> i : whiteVertices){
+            whiteObjList.add(i.getActualNode());
+        }
+        return  whiteObjList;
+    }
+    public Object getBlackObjByLabel(T label) throws NullPointerException{
+        if(label == null) throw new NullPointerException();
+        for(Vertex<T> i : blackVertices){
+            if(i.getLabel().equals(label)){
+                return i.getActualNode();
+            }
+        }
+        return null;
+    }
+
+
+    public Object getWhiteObjByLabel(T label) throws NullPointerException{
+        if(label == null) throw new NullPointerException();
+        for(Vertex<T> i : whiteVertices){
+            if(i.getLabel().equals(label)){
+                return i.getActualNode();
+            }
+        }
+        return null;
     }
 
 }
