@@ -16,6 +16,11 @@ public class SimulatorTest {
         driver.addEdge("sim1","par1","ch1","edge1");
         driver.sendTransaction("sim1","ch1",tx);
         driver.simulate("sim1");
+        driver.listContents("sim1","Ch1");
+        System.out.println(driver.getParticipantToRecycleAmount("sim1","par1"));
+        System.out.println(driver.getParticipantStorageAmount("sim1","par1"));
+        driver.printAllEdges("sim1");
+
 
 
 

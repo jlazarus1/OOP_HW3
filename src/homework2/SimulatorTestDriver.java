@@ -25,7 +25,6 @@ public class SimulatorTestDriver {
 	 *          initially empty.
 	 */
 	public void createSimulator(String simName) {
-	    // TODO: Implement this method
 		simulators.put(simName , new Simulator<String, Transaction>());
 	}
 
