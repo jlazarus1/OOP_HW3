@@ -2,6 +2,10 @@ package homework2;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * represents an edge in the graph
+ */
 public class Edge<T>  {
     private T lable;
     private Vertex<T> parent;

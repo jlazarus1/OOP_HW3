@@ -95,6 +95,14 @@ public class Simulator<T, O> {
         return obj;
     }
 
+    public ArrayList<T> getEdges(){
+        ArrayList<Edge<T>> edges = graph.listEdges();
+        ArrayList<T> edgesLabels = new ArrayList<>();
+        for(Edge<T> edge : edges){
+            edgesLabels.add(edge.getLable());
+        }
+        return edgesLabels;
+    }
 }
 
 
