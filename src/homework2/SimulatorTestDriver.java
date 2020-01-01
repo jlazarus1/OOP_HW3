@@ -102,10 +102,10 @@ public class SimulatorTestDriver {
      */
     public String listContents(String simName, String channelName) {
 
-        if (!simulators.containsKey(simName)) return "";
+        if (!simulators.containsKey(simName)) return "this simulator does not exist";
         Simulator<String, Transaction> sim = simulators.get(simName);
         Channel ch = (Channel) sim.getObjByLabel(channelName, true);
-        if (ch == null) return "";
+        if (ch == null) return "this channel does not exist";
         String contents = ch.getContents();
         return contents;
 
@@ -130,7 +130,6 @@ public class SimulatorTestDriver {
      * @requires addParticipant(participantName)
      */
 
-    //TODO not sure about this cast, make sure it is correct
     public double getParticipantToRecycleAmount(String simName, String participantName) {
         if (!simulators.containsKey(simName)) return 0;
         Simulator<String, Transaction> sim = simulators.get(simName);
@@ -149,6 +148,7 @@ public class SimulatorTestDriver {
         Simulator<String, Transaction> sim = simulators.get(simName);
         sim.simulate();
     }
+
 
     /**
      * Prints the all edges.
