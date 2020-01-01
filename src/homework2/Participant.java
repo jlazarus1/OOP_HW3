@@ -30,13 +30,13 @@ public class Participant implements Simulatable<String>{
     /*
     * @requires nothing
     * @modifies this
-    * @returns if the list of children is null, will throw NullPointerException
+    * @returns if the list of children is null or donationBuff is null, will throw NullPointerException
      */
     @Override
     public void simulate(BipartiteGraph<String> graph) throws NullPointerException{
         if(graph == null) return;
         ArrayList<Object> children = graph.listChildrenObjects(name);
-        if (children == null) throw new NullPointerException();
+        if (children == null || donationBuff == null) throw new NullPointerException();
         ListIterator<Object> iter = children.listIterator();
         while(iter.hasNext() && donationBuff.size() != 0){
             Channel child = (Channel) iter.next();
@@ -47,13 +47,15 @@ public class Participant implements Simulatable<String>{
         }
 
     }
+
     /*
     * takes a product and checks if it is needed by the participant, if so, adds it to the list, if not adds it to donation buffer.
     * @requires nothing.
     * @modifies this
-    * @returns nothing
+    * @returns throws exception if donationBuff is null.
      */
-    public void receiveTransaction(Transaction product){
+    public void receiveTransaction(Transaction product) throws NullPointerException{
+        if (donationBuff == null) throw new NullPointerException();
         if(product == null) return;
         if(product.getProduct().equals(wantedProduct)){
             if(holdingAmount < wantedAmount){
@@ -70,12 +72,17 @@ public class Participant implements Simulatable<String>{
         donationBuff.add(product);
         return;
     }
-
+    //@effects returns holdingAmount
     public int getStorageAmount(){
         return holdingAmount;
     }
 
-    public int getRecycleAmount(){
+    /*
+    * @effects returns the RecycleAmount for this participant
+    *           throws exception if donationBuff is empty.
+     */
+    public int getRecycleAmount() throws NullPointerException{
+        if (donationBuff ==null ) throw new NullPointerException();
         int sum = 0;
         for(Transaction tx : donationBuff){
             sum += tx.getAmount();

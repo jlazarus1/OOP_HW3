@@ -49,7 +49,7 @@ public class Simulator<T, O> {
             filter.simulate(graph);
         }
         stepNum++;
-        //TODO iterate over white nodes
+
     }
 
     /*
@@ -84,8 +84,14 @@ public class Simulator<T, O> {
 
     }
 
-
-    public Object getObjByLabel(T label, boolean isPipe) {
+    /*
+    * @requires T must be immutable.
+    * @modifies nothing
+    * @effects gets the object from label. need to know if its a pipe or not to know from which list to get it from
+    * throws exception if label is null
+     */
+    public Object getObjByLabel(T label, boolean isPipe) throws NullPointerException {
+        if (label == null) throw new NullPointerException();
         Object obj = null;
         if (isPipe) {
             obj = graph.getBlackObjByLabel(label);

@@ -27,24 +27,21 @@ public class BipartiteGraph<T> {
      * @ modifies this.
      * @effects creates a new graph with graphLabel as its Label. if graphLabel is null, throws exception
      */
-
     public BipartiteGraph() {
         blackVertices = new ArrayList<Vertex<T>>();
         whiteVertices = new ArrayList<Vertex<T>>();
         edges = new ArrayList<Edge<T>>();
     }
 
-
     /*
     *  @requires T must have an overridden equals method
     * @modifies this.
-    * @effects creates a graph with a black node with nodeLabel as label.
+    * @effects creates a black node with nodeLabel as label.
     * if nodeLabel == null, will throw exception.
     *
      */
     public void addBlackNode(T nodeLabel) throws NullPointerException
     {
-
         checkRep();
         if (nodeLabel == null) throw new NullPointerException();
         Vertex<T> vert= new Vertex<T>(nodeLabel, false);
@@ -52,9 +49,14 @@ public class BipartiteGraph<T> {
         checkRep();
     }
 
+    /*
+     * @requires T must have an overridden equals method
+     * @modifies this.
+     * @effects creates a black node with label nodeLabel and with object vertexType in Object field
+     *
+     */
     public void addBlackNode(T nodeLabel , Object vertexType) throws NullPointerException
     {
-
         checkRep();
         if (nodeLabel == null) throw new NullPointerException();
         Vertex<T> vert= new Vertex<T>(nodeLabel, false , vertexType);
@@ -79,9 +81,16 @@ public class BipartiteGraph<T> {
 
     }
 
+    /*
+     * @requires T must be immutable
+     * @modifies nothing
+     * @returns returns the object field of the black node named label
+     *          throws exception if label is null.
+     */
     public void addWhiteNode(T nodeLabel , Object vertexType) throws NullPointerException
     {
         checkRep();
+        if (vertexType == null) throw new NullPointerException();
         if (nodeLabel == null) throw new NullPointerException();
         Vertex<T> vert = new Vertex<T>(nodeLabel, true , vertexType);
         whiteVertices.add(vert);
@@ -108,23 +117,12 @@ public class BipartiteGraph<T> {
 
     }
 
-
-
-
-
-
     /*
     *@requires T must be immutable and have an overridden equals method
     *@ modifies this.
     *@effects adds an edge to a specific graph at a specific point. if one of the
     *         labels is null or non existent, throws an exception
-    *
-    *
      */
-
-
-
-
 
     public boolean addEdge(T parentLabel, T childLabel, T edgeLabel) throws NullPointerException{
         checkRep();
@@ -190,9 +188,6 @@ public class BipartiteGraph<T> {
         list = edges;
         return list;
     }
-
-
-
 
     /*
     *@requires T must be immutable and override equals method
@@ -293,6 +288,8 @@ public class BipartiteGraph<T> {
         }
     }
 
+    //Check rep function for the Bipartite Graph class
+
     private void checkRep(){
         for (Edge<T> i : edges) {
             assert (findLabel(i.getParent().getLabel()) != null);
@@ -302,7 +299,12 @@ public class BipartiteGraph<T> {
 
     }
 
-    public void removeVertex(Vertex<T> v){
+    /*
+    * @Requires nothing
+    * @modifies this
+    * @returns nothing.
+     */
+    public void removeVertex(Vertex<T> v) {
         if(v == null) {
             return;
         }
@@ -320,7 +322,14 @@ public class BipartiteGraph<T> {
         }
     }
 
-    public ArrayList<Object> listChildrenObjects(T parentName){
+    /*
+    * @requires T must be immutable
+    * @modifies nothing
+    * @returns a list of object's that are in parentName's children Object field.
+    *           throws an exception if parentName is null
+     */
+    public ArrayList<Object> listChildrenObjects(T parentName) throws NullPointerException{
+        if(parentName == null) throw new NullPointerException();
         ArrayList<Object> childrenObjList = new ArrayList<>();
         ArrayList<Vertex<T>> children = findLabel(parentName).getChildren();
         for(Vertex<T> i : children){
@@ -328,6 +337,13 @@ public class BipartiteGraph<T> {
         }
         return  childrenObjList;
     }
+
+    /*
+     * @requires nothing
+     * @modifies nothing
+     * @returns a list of the graphs black objects, the ones that are in the object field
+     */
+
     public ArrayList<Object> listBlackObjects(){
         ArrayList<Object> blackObjList = new ArrayList<>();
         for(Vertex<T> i : blackVertices){
@@ -335,6 +351,13 @@ public class BipartiteGraph<T> {
         }
         return  blackObjList;
     }
+
+    /*
+     * @requires nothing
+     * @modifies nothing
+     * @returns a list of the graphs white objects, the ones that are in the object field
+     */
+
     public ArrayList<Object> listWhiteObjects(){
         ArrayList<Object> whiteObjList = new ArrayList<>();
         for(Vertex<T> i : whiteVertices){
@@ -342,6 +365,14 @@ public class BipartiteGraph<T> {
         }
         return  whiteObjList;
     }
+
+
+    /*
+     * @requires T must be immutable
+     * @modifies nothing
+     * @returns returns the object field of the black node named label
+     *          throws exception if label is null.
+     */
     public Object getBlackObjByLabel(T label) throws NullPointerException{
         if(label == null) throw new NullPointerException();
         for(Vertex<T> i : blackVertices){
@@ -352,7 +383,12 @@ public class BipartiteGraph<T> {
         return null;
     }
 
-
+    /*
+     * @requires T must be immutable
+     * @modifies nothing
+     * @returns returns the object field of the white node named label
+     *          throws exception if label is null.
+     */
     public Object getWhiteObjByLabel(T label) throws NullPointerException{
         if(label == null) throw new NullPointerException();
         for(Vertex<T> i : whiteVertices){
