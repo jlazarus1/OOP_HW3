@@ -1,5 +1,6 @@
 package homework2;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -21,14 +22,17 @@ import java.util.ListIterator;
      */
 public void simulate(){
     ArrayList blacks = graph.listBlackNodes();
-    ArrayList<Node<V,O>> whites = graph.listBlackNodes();
+    ArrayList<Node<V,O>> whites = graph.listWhiteNodes();
     ListIterator blacksIter = blacks.listIterator();
-    ListIterator whitesIter = whites.listIterator();
     while(blacksIter.hasNext()){
         Pipe<V,O> s = (Pipe<V,O>) blacksIter.next();
         s.simulate(graph);
     }
- //TODO iterate over white nodes
+    for (Node<V,O> i: whites)
+    {
+        i.simulate(graph);
+
+    }
 }
 
 // TODO remove this method

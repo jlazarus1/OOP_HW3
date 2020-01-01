@@ -28,6 +28,6 @@ public Filter(){
     }
 
     public void simulate(BipartiteGraph graph) {
-        System.out.println("I am simulating pipe");
+        System.out.println("I am simulating filter");
     }
 }

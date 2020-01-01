@@ -16,7 +16,7 @@ abstract public class Node<T,O> implements Simulatable<T>{
         return this.label.equals(label);
     }
 
-    abstract public void simulate(BipartiteGraph<T> graph);
+    abstract public void simulate(BipartiteGraph graph);
     public T getLabel(){
         return label;
     }
