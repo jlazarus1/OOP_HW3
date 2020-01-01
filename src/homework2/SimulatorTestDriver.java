@@ -150,16 +150,16 @@ public class SimulatorTestDriver {
         sim.simulate();
     }
 
-    /**
-     * Prints the all edges.
-     *
-     * @requires simName the sim name
-     * @effects Prints the all edges.
-     */
-    public void printAllEdges(String simName) {
-
-        Simulator<String, Transaction> sim = simulators.get(simName);
-        sim.printEdges();
-    }
+//    /**
+//     * Prints the all edges.
+//     *
+//     * @requires simName the sim name
+//     * @effects Prints the all edges.
+//     */
+//    public void printAllEdges(String simName) {
+//
+//        Simulator<String, Transaction> sim = simulators.get(simName);
+//        sim.printEdges();
+//    }
 
 }
