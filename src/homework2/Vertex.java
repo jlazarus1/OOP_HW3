@@ -5,18 +5,27 @@ import java.util.ArrayList;
 public class Vertex<T> {
 
     private T label;
+    private Object actualNode = null;
     private boolean isVertexWhite;
     private ArrayList<Vertex<T>> parents;
     private ArrayList<Vertex<T>> children;
-
-    public Vertex(){}
-
 
     public Vertex(T label, boolean isWhite) {
         this.label = label;
         this.isVertexWhite = isWhite;
         this.parents = new ArrayList<Vertex<T>>();
         this.children = new ArrayList<Vertex<T>>();;
+    }
+
+    public Vertex(T label, boolean isWhite , Object nodeType){
+        this.label = label;
+        this.isVertexWhite = isWhite;
+        this.actualNode = nodeType;
+        this.parents = new ArrayList<Vertex<T>>();
+        this.children = new ArrayList<Vertex<T>>();;
+    }
+    public Object getActualNode(){
+        return actualNode;
     }
     public T getLabel(){
         return label;

@@ -30,7 +30,7 @@ public class SimulatorTestDriver {
 	}
 
 	/**
-	 * @requires createSimulator(simName) 
+	 * @requires createSimulator(simName)
      *           && channelName != null && channelName has
 	 *           not been used in a previous addChannel()  or
 	 *           addParticipant() call on this object
@@ -42,12 +42,12 @@ public class SimulatorTestDriver {
 	public void addChannel(String simName, String channelName, int limit) {
 		if(!simulators.containsKey(simName)) return;
 	    Simulator<String,Transaction> sim = simulators.get(simName);
-	    Pipe<String,Transaction> channel = new Pipe<>(channelName , limit);
-	    sim.addPipe(channel);
+	    Channel newChannel = new Channel(channelName , limit);
+	    sim.addPipe(channelName , newChannel);
 	}
 
 	/**
-	 * @requires createSimulator(simName) && participantName != null 
+	 * @requires createSimulator(simName) && participantName != null
 	 *           && participantName has not been used in a previous addParticipant(), addChannel()
 	 *           call on this object
 	 *			 amount > 0
@@ -59,11 +59,8 @@ public class SimulatorTestDriver {
 	public void addParticipant(String simName, String participantName, String product, int amount) {
         if(!simulators.containsKey(simName)) return;
 		Simulator<String,Transaction> sim = simulators.get(simName);
-		Filter<String,Transaction> participant = new Participant<String, Transaction>();
-		participant.setLabel(participantName);
-		Transaction tx = new Transaction(product,amount);
-		participant.addItem(tx);
-        sim.addFilter(participant);
+		Participant newParticipant = new Participant(participantName , product , amount);
+		sim.addFilter(participantName , newParticipant);
 
 	}
 
@@ -71,7 +68,7 @@ public class SimulatorTestDriver {
 	 * @requires createSimulator(simName) && ((addPipe(parentName) &&
 	 *           addFilter(childName)) || (addFilter(parentName) &&
 	 *           addPipe(childName))) && edgeLabel != null && node named
-	 *           parentName has no other outgoing edge labeled edgeLabel 
+	 *           parentName has no other outgoing edge labeled edgeLabel
 	 *           && node named childName has no other incoming edge labeled edgeLabel
 	 * @modifies simulator named simName
 	 * @effects Adds an edge from the node named parentName to the node named
@@ -93,12 +90,10 @@ public class SimulatorTestDriver {
 	//TODO
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
         Simulator<String,Transaction> sim = simulators.get(simName);
-        Node t = sim.findNode(channelName);
-        t.getClass();
-
+		sim.sendTransaction(channelName , tx);
     }
-	
-	
+
+
 	/**
 	 * @requires addChannel(channelName)
 	 * @return a space-separated list of the Transaction values currently in the
@@ -157,7 +152,7 @@ public class SimulatorTestDriver {
 	}
 
 
-	
+
 	/**
 	 * @requires createSimulator(simName)
 	 * @modifies simulator named simName

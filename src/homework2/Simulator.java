@@ -1,95 +1,83 @@
 package homework2;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
 /*
-* this class implements a simulator for a BipartiteGraph. It extends BipartiteGraph
-*
+ * this class implements a simulator for a BipartiteGraph. It extends BipartiteGraph
+ *
  */
- public class Simulator <V , O>  {
+public class Simulator<T, O> {
 
-     private BipartiteGraph<Node<V,O>> graph;
+    private BipartiteGraph<T> graph;
+    private int stepNum;
 
-    public Simulator(){
-     graph = new BipartiteGraph<Node<V,O>>();
+    public Simulator() {
+        graph = new BipartiteGraph<T>();
+        stepNum = 0;
     }
 
 
     /*
-    * @Requires
+     * @Requires
      */
-public void simulate(){
-    ArrayList blacks = graph.listBlackNodes();
-    ArrayList<Node<V,O>> whites = graph.listWhiteNodes();
-    ListIterator blacksIter = blacks.listIterator();
-    while(blacksIter.hasNext()){
-        Pipe<V,O> s = (Pipe<V,O>) blacksIter.next();
-        s.simulate(graph);
+    public void simulate() {
+        ArrayList blacks = graph.listWhiteObjects();
+        ArrayList whites = graph.listWhiteObjects();
+        ListIterator blacksIter = blacks.listIterator();
+        ListIterator whitesIter = whites.listIterator();
+        while (blacksIter.hasNext()) {
+            Simulatable<T> pipe = (Simulatable<T>) blacksIter.next();
+            pipe.simulate(graph);
+        }
+        while (whitesIter.hasNext()) {
+            Simulatable<T> filter = (Simulatable<T>) whitesIter.next();
+            filter.simulate(graph);
+        }
+        stepNum++;
+        //TODO iterate over white nodes
     }
-    for (Node<V,O> i: whites)
-    {
-        i.simulate(graph);
 
+
+    public void addPipe(T label, Object pipe) throws NullPointerException { // Black Vertex
+        if (pipe == null || label == null) throw new NullPointerException();
+        graph.addBlackNode(label, pipe);
     }
-}
-
-// TODO remove this method
-public BipartiteGraph<Node<V,O>> getGraph(){return graph;}
-
-public  void addPipe(Pipe<V,O> pipe) throws NullPointerException{ // Black Vertex
-    if(pipe == null) throw new NullPointerException();
-    graph.addBlackNode(pipe);
-}
 
 
-
-public void addFilter(Filter<V , O> filter) throws NullPointerException{
-    if(filter == null) throw new NullPointerException();
-    graph.addWhiteNode(filter);
-}
-
-public Node<V,O> findNode(V label){
-    for (Node<V,O> i : graph.listBlackNodes())
-    {
-        if (i.getLabel().equals(label)) return i;
+    public void addFilter(T label, Object filter) throws NullPointerException {
+        if (filter == null || label == null) throw new NullPointerException();
+        graph.addWhiteNode(label, filter);
     }
-    for (Node<V,O> i : graph.listWhiteNodes())
-    {
-        if (i.getLabel().equals(label)) return i;
-    }
-    return null;
-}
-
-public void sendTransaction(V label,O Tx)
-{
-    findNode(label);
 
 
-}
-
-
-public void addEdge(V parentName, V childName, V edgeLabel){
-    Node<V,O> edge = new NodeEdge<>(edgeLabel);
-
-    graph.addEdge(findNode(parentName),findNode(childName),edge);
-
-}
-
-//TODO for sure not correct, need to change
-public void printEdges(){
-    for (Edge<Node<V,O>> i: graph.listEdges())
-    {
-        System.out.println(i.getLable().getLabel());
+    public void addEdge(T parentName, T childName, T edgeLabel) {
+        if (parentName == null || childName == null || edgeLabel == null) throw new NullPointerException();
+        graph.addEdge(parentName, childName, edgeLabel);
 
     }
 
 
-}
+    public void sendObject(T channelName, O tx){
+        Channel ch = (Channel) graph.getBlackObjByLabel(channelName);
+        if(ch == null) return;
+        ch.receiveTransaction(tx);
+    }
+
+    public String listContents(T channelName){
+        Channel ch = (Channel) graph.getBlackObjByLabel(channelName);
+        if(ch == null) return "";
+        String contents = ch.getContents();
+        return contents;
+    }
 
 
-
+    //TODO for sure not correct, need to change
+    public void printEdges() {
+        for (Edge<T> i : graph.listEdges()) {
+            System.out.println(i.getLable());
+        }
+    }
 
 
 }
