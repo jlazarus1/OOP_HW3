@@ -22,7 +22,7 @@ public class Simulator<T, O> {
      * @Requires
      */
     public void simulate() {
-        ArrayList blacks = graph.listWhiteObjects();
+        ArrayList blacks = graph.listBlackObjects();
         ArrayList whites = graph.listWhiteObjects();
         ListIterator blacksIter = blacks.listIterator();
         ListIterator whitesIter = whites.listIterator();
@@ -58,18 +58,17 @@ public class Simulator<T, O> {
     }
 
 
-    public void sendObject(T channelName, O tx){
-        Channel ch = (Channel) graph.getBlackObjByLabel(channelName);
-        if(ch == null) return;
-        ch.receiveTransaction(tx);
+    public Object getObjByLabel(T label , boolean isPipe){
+        Object obj = null;
+        if(isPipe) {
+            obj = graph.getBlackObjByLabel(label);
+        }
+        else {
+            obj = graph.getWhiteObjByLabel(label);
+        }
+        return obj;
     }
 
-    public String listContents(T channelName){
-        Channel ch = (Channel) graph.getBlackObjByLabel(channelName);
-        if(ch == null) return "";
-        String contents = ch.getContents();
-        return contents;
-    }
 
 
     //TODO for sure not correct, need to change

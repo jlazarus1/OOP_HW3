@@ -52,4 +52,16 @@ public class Participant implements Simulatable<String>{
         donationBuff.add(product);
         return;
     }
+
+    public int getStorageAmount(){
+        return holdingAmount;
+    }
+
+    public int getRecycleAmount(){
+        int sum = 0;
+        for(Transaction tx : donationBuff){
+            sum += tx.getAmount();
+        }
+        return sum;
+    }
 }
