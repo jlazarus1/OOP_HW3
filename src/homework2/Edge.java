@@ -8,7 +8,7 @@ public class Edge<T>  {
     private Vertex<T> child;
 
     /*
-     * @requires lable & parent & child != null
+     * @requires label & parent & child != null
      * @modifies this.
      * @effects creates a new edge with parent and child
      */
